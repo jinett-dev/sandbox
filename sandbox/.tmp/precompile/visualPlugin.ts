@@ -5,8 +5,8 @@ import VisualConstructorOptions = powerbiVisualsApi.extensibility.visual.VisualC
 import DialogConstructorOptions = powerbiVisualsApi.extensibility.visual.DialogConstructorOptions;
 var powerbiKey: any = "powerbi";
 var powerbi: any = window[powerbiKey];
-var sandboxC839D4652AE8497B8F89CE540B23B914_DEBUG: IVisualPlugin = {
-    name: 'sandboxC839D4652AE8497B8F89CE540B23B914_DEBUG',
+var sandboxC839D4652AE8497B8F89CE540B23B914: IVisualPlugin = {
+    name: 'sandboxC839D4652AE8497B8F89CE540B23B914',
     displayName: 'sandbox',
     class: 'Visual',
     apiVersion: '5.2.0',
@@ -27,6 +27,6 @@ var sandboxC839D4652AE8497B8F89CE540B23B914_DEBUG: IVisualPlugin = {
 if (typeof powerbi !== "undefined") {
     powerbi.visuals = powerbi.visuals || {};
     powerbi.visuals.plugins = powerbi.visuals.plugins || {};
-    powerbi.visuals.plugins["sandboxC839D4652AE8497B8F89CE540B23B914_DEBUG"] = sandboxC839D4652AE8497B8F89CE540B23B914_DEBUG;
+    powerbi.visuals.plugins["sandboxC839D4652AE8497B8F89CE540B23B914"] = sandboxC839D4652AE8497B8F89CE540B23B914;
 }
-export default sandboxC839D4652AE8497B8F89CE540B23B914_DEBUG;
+export default sandboxC839D4652AE8497B8F89CE540B23B914;

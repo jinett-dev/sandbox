@@ -1,0 +1,17 @@
+{
+    "version": "1.0.0",
+    "author": {"name":"JVIZ","email":"support@jinett.com"},
+    "resources": [
+        {
+            "resourceId": "rId0",
+            "sourceType": 5,
+            "file": "resources/sandboxC839D4652AE8497B8F89CE540B23B914.pbiviz.json"
+        }
+    ],
+    "visual": {"name":"sandbox","displayName":"sandbox","guid":"sandboxC839D4652AE8497B8F89CE540B23B914","visualClassName":"Visual","version":"1.0.0","description":"JVIZ sandbox","supportUrl":"www.jinett.com","gitHubUrl":""},
+    "metadata": {
+        "pbivizjson": {
+            "resourceId": "rId0"
+        }
+    }  
+}
