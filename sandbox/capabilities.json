@@ -9,21 +9,17 @@
             "displayName": "Measure Data",
             "name": "measure",
             "kind": "Measure"
+        },
+        {
+            "displayName": "Status",
+            "name": "status",
+            "kind": "Measure"
         }
     ],
     "objects": {
-        "dataPoint": {
+        "enableAxis": {
             "properties": {
-                "defaultColor": {
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }
-                },
-                "showAllDataPoints": {
+                "show": {
                     "type": {
                         "bool": true
                     }
@@ -36,16 +32,17 @@
                             }
                         }
                     }
-                },
-                "fillRule": {
+                }
+            }
+        },
+        "colorSelector": {
+            "properties": {
+                "fill": {
                     "type": {
-                        "fill": {}
-                    }
-                },
-                 "fontSize": {
-                    "type": {
-                        "formatting": {
-                            "fontSize": true
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
                         }
                     }
                 }
@@ -64,13 +61,13 @@
                     }
                 },
                 "values": {
-                    "select": [
-                        {
-                            "bind": {
-                                "to": "measure"
-                            }
-                        }
-                    ]
+                    "group": {
+                        "by": "grouping",
+                        "select":[
+                            { "for": { "in": "measure" } },
+                            { "for": { "in": "status" } }
+                        ]
+                    }
                 }
             }
         }

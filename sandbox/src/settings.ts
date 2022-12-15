@@ -25,8 +25,10 @@
  */
 
 "use strict";
-
+import powerbi from "powerbi-visuals-api";
+import { dataViewWildcard } from "powerbi-visuals-utils-dataviewutils";
 import { formattingSettings } from "powerbi-visuals-utils-formattingmodel";
+import { BarChartDataPoint, StatusColor } from "./visual";
 
 import FormattingSettingsCard = formattingSettings.Card;
 import FormattingSettingsSlice = formattingSettings.Slice;
@@ -35,41 +37,34 @@ import FormattingSettingsModel = formattingSettings.Model;
 /**
  * Data Point Formatting Card
  */
-class DataPointCardSettings extends FormattingSettingsCard {
-    defaultColor = new formattingSettings.ColorPicker({
-        name: "defaultColor",
-        displayName: "Default color",
-        value: { value: "" }
+ class EnableAxisCardSettings extends FormattingSettingsCard {
+    // Formatting property `show` toggle switch (formatting simple slice)
+    show = new formattingSettings.ToggleSwitch({
+        name: "show",
+        displayName: undefined,
+        value: false,
+        topLevelToggle: true
     });
 
-    showAllDataPoints = new formattingSettings.ToggleSwitch({
-        name: "showAllDataPoints",
-        displayName: "Show all",
-        value: true
-    });
-
+    // Formatting property `fill` color picker (formatting simple slice)
     fill = new formattingSettings.ColorPicker({
         name: "fill",
-        displayName: "Fill",
-        value: { value: "" }
+        displayName: "Color",
+        value: { value: "#000000" }
     });
 
-    fillRule = new formattingSettings.ColorPicker({
-        name: "fillRule",
-        displayName: "Color saturation",
-        value: { value: "" }
-    });
-
-    fontSize = new formattingSettings.NumUpDown({
-        name: "fontSize",
-        displayName: "Text Size",
-        value: 12
-    });
-
-    name: string = "dataPoint";
-    displayName: string = "Data colors";
-    slices: Array<FormattingSettingsSlice> = [this.defaultColor, this.showAllDataPoints, this.fill, this.fillRule, this.fontSize];
+    name: string = "enableAxis";
+    displayName: string = "Enable Axis";
+    slices: Array<FormattingSettingsSlice> = [this.show, this.fill];
 }
+
+class ColorSelectorCardSettings extends FormattingSettingsCard {
+    name: string = "colorSelector";
+    displayName: string = "Status Colors";
+  
+    // slices will be populated in barChart settings model `populateColorSelector` method
+    slices: Array<FormattingSettingsSlice> = [];
+  }
 
 /**
 * visual settings model class
@@ -77,7 +72,28 @@ class DataPointCardSettings extends FormattingSettingsCard {
 */
 export class VisualFormattingSettingsModel extends FormattingSettingsModel {
     // Create formatting settings model formatting cards
-    dataPointCard = new DataPointCardSettings();
+    enableAxis  = new EnableAxisCardSettings();
+    colorSelector = new ColorSelectorCardSettings();
 
-    cards = [this.dataPointCard];
+    cards = [this.enableAxis, this.colorSelector];
+
+    /**
+   * populate colorSelector object categories formatting properties
+   * @param dataPoints 
+   */
+     populateColorSelector(dataPoints: StatusColor[]) {
+        let slices = this.colorSelector.slices;
+        if (dataPoints) {
+            dataPoints.forEach(dataPoint => {
+                slices.push(new formattingSettings.ColorPicker({
+                    name: "fill",
+                    displayName: dataPoint.name,
+                    value: { value: dataPoint.color },
+                    selector: dataViewWildcard.createDataViewWildcardSelector(dataViewWildcard.DataViewWildcardMatchingOption.InstancesAndTotals),
+                    altConstantSelector: dataPoint.selectionId.getSelector(),
+                    instanceKind: powerbi.VisualEnumerationInstanceKinds.ConstantOrRule
+                }));
+            });
+        }
+    }
 }
